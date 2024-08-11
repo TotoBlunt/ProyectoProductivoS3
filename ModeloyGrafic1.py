@@ -9,16 +9,17 @@ from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 import streamlit as st 
 
-try:
-    #Configuracion de streamlit
-    st.title('Modelo de IA para Granja de Pollo con Comparacion de Predicciones')
-    st.write('''
-            Esta aplicacion permite realizar las predicciones del peso final del pollo incluyendo el consumo de alimentos en la fase 'Acabado -Finalizador' asi como tamboien con la estacion del corral (Veran, Otoño, Invierno,Primavera) y finalizando con el sexo del pollo en mencion tabien se puede visualizar la comparacion de peso real vs el peso predicho por el algoritmo''')
+
+#Configuracion de streamlit
+st.title('Modelo de IA para Granja de Pollo con Comparacion de Predicciones')
+st.write('''
+        Esta aplicacion permite realizar las predicciones del peso final del pollo incluyendo el consumo de alimentos en la fase 'Acabado -Finalizador' asi como tamboien con la estacion del corral (Veran, Otoño, Invierno,Primavera) y finalizando con el sexo del pollo en mencion tabien se puede visualizar la comparacion de peso real vs el peso predicho por el algoritmo''')
     
-    #CARGAR DATOS
-    uploaded_file = st.file_uploader("Cargar Archivo Excel" ,type=['xlsx'])
+#CARGAR DATOS
+uploaded_file = st.file_uploader("Cargar Archivo Excel" ,type=['xlsx'])
     
-    if uploaded_file is not None:
+if uploaded_file is not None:
+    try:
         data = pd.read_excel(uploaded_file)
         # Convertir la columna objetivo a valores numéricos
         data['EstaciónCorral'] = data['EstaciónCorral'].map({"Verano":1,"Otoño":2,"Invierno":3,"Primavera":4})
@@ -50,28 +51,25 @@ try:
         data['Error'] = data['Peso Prom. Final'] - data['Peso Prom. Final Predicho']
 
         # Grafico de Comparacion
-        plt.figure(figsize=(12, 6))
-        plt.plot(data['Peso Prom. Final'], label='Peso Prom. Final (Estático)', color='blue')
-        plt.plot(data['Peso Prom. Final Predicho'], label='Peso Prom. Final Predicho', color='red')
-        plt.xlabel('Índice')
-        plt.ylabel('Peso Prom. Final')
-        plt.title('Comparación entre Peso Prom. Final Estático y Predicho')
-        plt.legend()
-        plt.grid(True)
+        fig,ax = plt.subplots()
 
-        plt.show()
+        ax.figure(figsize=(12, 6))
+        ax.plot(data['Peso Prom. Final'], label='Peso Prom. Final (Estático)', color='blue')
+        ax.plot(data['Peso Prom. Final Predicho'], label='Peso Prom. Final Predicho', color='red')
+        ax.xlabel('Índice')
+        ax.ylabel('Peso Prom. Final')
+        ax.title('Comparación entre Peso Prom. Final Estático y Predicho')
+        ax.legend()
+        ax.grid(True)
+        st.pyplot(fig)
 
         #varianza
         varianza = ((data['Peso Prom. Final'] - data['Peso Prom. Final Predicho']) **2).mean()
-        print(f"La varianza de los valores es:  {varianza:.4f}")
+        st.write(f"La varianza de los valores es:  {varianza:.4f}")
         
         # Calcular métricas de evaluación
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
-        
-except FileNotFoundError as e:
-    print(f"Error en el proceso: {e}")
-except SyntaxError as e:
-    print(f"Error de Sintaxis: {e}")
-except Exception as e:
-    print(f"Error inesperado: {e}")
+        st.write(f"El error cuadratico medio es: {r2}")
+    except Exception as e:
+        st.error(f"Error al leer el archivo Excel: {e}")
