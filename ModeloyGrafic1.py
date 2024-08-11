@@ -53,7 +53,6 @@ if uploaded_file is not None:
         # Grafico de Comparacion
         fig,ax = plt.subplots()
 
-        ax.figure(figsize=(12, 6))
         ax.plot(data['Peso Prom. Final'], label='Peso Prom. Final (Estático)', color='blue')
         ax.plot(data['Peso Prom. Final Predicho'], label='Peso Prom. Final Predicho', color='red')
         ax.xlabel('Índice')
