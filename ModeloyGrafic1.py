@@ -58,7 +58,7 @@ if uploaded_file is not None:
         ax.set_xlabel('Índice')
         ax.set_ylabel('Peso Prom. Final')
         ax.set_title('Comparación entre Peso Prom. Final Estático y Predicho')
-        ax.egend()
+        ax.legend()
         ax.grid(True)
         st.pyplot(fig)
 
