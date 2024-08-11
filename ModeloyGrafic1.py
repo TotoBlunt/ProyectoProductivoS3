@@ -55,11 +55,11 @@ if uploaded_file is not None:
 
         ax.plot(data['Peso Prom. Final'], label='Peso Prom. Final (Estático)', color='blue')
         ax.plot(data['Peso Prom. Final Predicho'], label='Peso Prom. Final Predicho', color='red')
-        ax.xlabel('Índice')
-        ax.ylabel('Peso Prom. Final')
-        ax.title('Comparación entre Peso Prom. Final Estático y Predicho')
-        ax.legend()
-        ax.grid(True)
+        ax.set_xlabel('Índice')
+        ax.set_ylabel('Peso Prom. Final')
+        ax.set_title('Comparación entre Peso Prom. Final Estático y Predicho')
+        ax.set_legend()
+        ax.set_grid(True)
         st.pyplot(fig)
 
         #varianza
