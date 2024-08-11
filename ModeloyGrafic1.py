@@ -58,8 +58,8 @@ if uploaded_file is not None:
         ax.set_xlabel('Índice')
         ax.set_ylabel('Peso Prom. Final')
         ax.set_title('Comparación entre Peso Prom. Final Estático y Predicho')
-        ax.set_legend()
-        ax.set_grid(True)
+        ax.egend()
+        ax.grid(True)
         st.pyplot(fig)
 
         #varianza
