@@ -71,6 +71,7 @@ if uploaded_file is not None:
         # Calcular métricas de evaluación
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
-        st.write(f"El error cuadratico medio es: {r2}")
+        st.write(f"El error cuadratico medio es: {mse:.4f}")
+        st.write(f'coeficiente de Determinacion: {r2:.4f}')
     except Exception as e:
         st.error(f"Error al leer el archivo Excel: {e}")
