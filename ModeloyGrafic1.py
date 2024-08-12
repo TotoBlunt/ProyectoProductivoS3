@@ -21,6 +21,8 @@ uploaded_file = st.file_uploader("Cargar Archivo Excel" ,type=['xlsx'])
 if uploaded_file is not None:
     try:
         data = pd.read_excel(uploaded_file)
+        #Elminando valores NaN
+        data = data.dropna()
         # Convertir la columna objetivo a valores numéricos
         data['EstaciónCorral'] = data['EstaciónCorral'].map({"Verano":1,"Otoño":2,"Invierno":3,"Primavera":4})
         data['Nsexo'] = data["Nsexo"].map({"Macho":0,"Hembra":1})
@@ -39,7 +41,7 @@ if uploaded_file is not None:
         model = VotingRegressor(models)
         
         #Entrenar el modelo con los datos
-        model.fit(x,y)
+        model.fit(x_train,y_train)
         
         # Hacer predicciones con el modelo usando datos de prueba
         y_pred = model.predict(x_test)
